@@ -18,11 +18,14 @@ public class PasswordActivity extends AppCompatActivity {
 
     private PasswordViewModel _viewModel;
     private ViewHolder _viewHolder = new ViewHolder();
+    private int _passId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
+
+        _passId = 0;
 
         this._viewModel = new ViewModelProvider(this).get(PasswordViewModel.class);
 
@@ -51,7 +54,7 @@ public class PasswordActivity extends AppCompatActivity {
                 TypePassword.NUMERIC : TypePassword.TEXT;
         String password = this._viewHolder.editPassword.getText().toString();
 
-        PasswordModel pass = new PasswordModel(passName, type.getValue(), password);
+        PasswordModel pass = new PasswordModel(_passId, passName, type.getValue(), password);
         this._viewModel.save(pass);
 
     }
