@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="pass_name">Nome da senha</string>
+    <string name="pass_type">Tipo da senha</string>
+    <string name="type_numeric">Númerico</string>
+    <string name="type_text">Texto</string>
+    <string name="password">Digite sua Senha</string>
+    <string name="save">Salvar</string>
 </resources>
