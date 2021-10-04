@@ -17,7 +17,7 @@ public abstract class PasswordDatabase extends RoomDatabase {
     public abstract PasswordDAO passDAO();
 
     public static PasswordDatabase getInstance(Context context) {
-        if (INSTANCE != null) {
+        if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, PasswordDatabase.class, "Passwords")
                     .allowMainThreadQueries()
                     .addCallback(new Callback() {

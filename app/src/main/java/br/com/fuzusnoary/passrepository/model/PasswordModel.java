@@ -47,8 +47,8 @@ public class PasswordModel {
         this.passName = passName;
     }
 
-    public int getPassType() {
-        return passType.getValue();
+    public TypePassword getPassType() {
+        return passType;
     }
 
     public void setPassType(int passType) {
@@ -61,5 +61,9 @@ public class PasswordModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPassType(TypePassword passType) {
+        this.passType = passType;
     }
 }

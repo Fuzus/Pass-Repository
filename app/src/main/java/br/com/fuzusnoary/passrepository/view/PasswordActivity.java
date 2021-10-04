@@ -1,13 +1,13 @@
 package br.com.fuzusnoary.passrepository.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-import android.view.View;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import br.com.fuzusnoary.passrepository.R;
 import br.com.fuzusnoary.passrepository.enums.TypePassword;
@@ -39,16 +39,17 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    public void setListeners(){
-        this._viewHolder.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handlerSave();
-            }
-        });
+    public void setListeners() {
+        this._viewHolder.btnSave.setOnClickListener((view) -> handlerSave());
+
+        this._viewHolder.radioTypeNumeric.setOnClickListener((view) ->
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER));
+
+        this._viewHolder.radioTypeText.setOnClickListener((view) ->
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT));
     }
 
-    public void handlerSave(){
+    public void handlerSave() {
         String passName = this._viewHolder.editNamePassword.getText().toString();
         TypePassword type = this._viewHolder.radioTypeNumeric.isChecked() ?
                 TypePassword.NUMERIC : TypePassword.TEXT;
