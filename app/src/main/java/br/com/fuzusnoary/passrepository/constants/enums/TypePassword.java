@@ -1,4 +1,4 @@
-package br.com.fuzusnoary.passrepository.enums;
+package br.com.fuzusnoary.passrepository.constants.enums;
 
 public enum TypePassword {
     TEXT(0),

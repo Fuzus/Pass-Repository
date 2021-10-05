@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import br.com.fuzusnoary.passrepository.enums.TypePassword;
+import br.com.fuzusnoary.passrepository.constants.enums.TypePassword;
 
 @Entity(tableName = "tb_password")
 public class PasswordModel {
@@ -22,9 +22,10 @@ public class PasswordModel {
     @ColumnInfo(name = "password")
     private String password;
 
-    public PasswordModel(){}
+    public PasswordModel() {
+    }
 
-    public PasswordModel(int id, String passName, int passType, String password){
+    public PasswordModel(int id, String passName, int passType, String password) {
         this.id = id;
         this.passName = passName;
         setPassType(passType);
@@ -55,15 +56,15 @@ public class PasswordModel {
         TypePassword.getType(passType);
     }
 
+    public void setPassType(TypePassword passType) {
+        this.passType = passType;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setPassType(TypePassword passType) {
-        this.passType = passType;
     }
 }

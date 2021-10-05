@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PassRepository">
         <activity
+            android:name=".view.PasswordReadActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.PasswordActivity"
             android:exported="true" />
         <activity

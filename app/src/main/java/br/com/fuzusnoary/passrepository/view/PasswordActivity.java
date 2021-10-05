@@ -7,12 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import br.com.fuzusnoary.passrepository.R;
-import br.com.fuzusnoary.passrepository.enums.TypePassword;
+import br.com.fuzusnoary.passrepository.constants.enums.TypePassword;
+import br.com.fuzusnoary.passrepository.model.FeedBackModel;
 import br.com.fuzusnoary.passrepository.model.PasswordModel;
 import br.com.fuzusnoary.passrepository.view.viewmodel.PasswordViewModel;
 
@@ -40,6 +43,7 @@ public class PasswordActivity extends AppCompatActivity {
         this._viewHolder.imgVisibilityOff = findViewById(R.id.img_visibility_off);
 
         this.setListeners();
+        this.setObservers();
 
     }
 
@@ -80,13 +84,25 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
+    public void setObservers(){
+        this._viewModel.message.observe(this, new Observer<FeedBackModel>() {
+            @Override
+            public void onChanged(FeedBackModel feedback) {
+                if(feedback.isStatus()){
+                    finish();
+                }
+                Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void handlerSave() {
         String passName = this._viewHolder.editNamePassword.getText().toString();
         TypePassword type = this._viewHolder.radioTypeNumeric.isChecked() ?
                 TypePassword.NUMERIC : TypePassword.TEXT;
         String password = this._viewHolder.editPassword.getText().toString();
 
-        PasswordModel pass = new PasswordModel(_passId, passName, type.getValue(), password);
+        PasswordModel pass = new PasswordModel(this._passId, passName, type.getValue(), password);
         this._viewModel.save(pass);
 
     }
