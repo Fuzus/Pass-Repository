@@ -2,8 +2,10 @@ package br.com.fuzusnoary.passrepository.view;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +18,8 @@ import br.com.fuzusnoary.passrepository.view.viewmodel.PasswordViewModel;
 
 public class PasswordActivity extends AppCompatActivity {
 
+    private final ViewHolder _viewHolder = new ViewHolder();
     private PasswordViewModel _viewModel;
-    private ViewHolder _viewHolder = new ViewHolder();
     private int _passId;
 
     @Override
@@ -34,6 +36,8 @@ public class PasswordActivity extends AppCompatActivity {
         this._viewHolder.radioTypeText = findViewById(R.id.radio_type_text);
         this._viewHolder.editPassword = findViewById(R.id.edit_password);
         this._viewHolder.btnSave = findViewById(R.id.button_save);
+        this._viewHolder.imgVisibilityOn = findViewById(R.id.img_visibility_on);
+        this._viewHolder.imgVisibilityOff = findViewById(R.id.img_visibility_off);
 
         this.setListeners();
 
@@ -43,10 +47,37 @@ public class PasswordActivity extends AppCompatActivity {
         this._viewHolder.btnSave.setOnClickListener((view) -> handlerSave());
 
         this._viewHolder.radioTypeNumeric.setOnClickListener((view) ->
-                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER));
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER
+                        | InputType.TYPE_NUMBER_VARIATION_PASSWORD));
 
         this._viewHolder.radioTypeText.setOnClickListener((view) ->
-                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT));
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_PASSWORD));
+
+        this._viewHolder.imgVisibilityOn.setOnClickListener((view) -> {
+            _viewHolder.imgVisibilityOn.setVisibility(View.GONE);
+            _viewHolder.imgVisibilityOff.setVisibility(View.VISIBLE);
+            if (_viewHolder.radioTypeText.isChecked()) {
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            } else {
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER
+                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            }
+        });
+
+        this._viewHolder.imgVisibilityOff.setOnClickListener((view) -> {
+            _viewHolder.imgVisibilityOff.setVisibility(View.GONE);
+            _viewHolder.imgVisibilityOn.setVisibility(View.VISIBLE);
+            if (_viewHolder.radioTypeText.isChecked()) {
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT
+                        | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            } else {
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER
+                        | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+            }
+        });
+
     }
 
     public void handlerSave() {
@@ -60,11 +91,14 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         EditText editNamePassword;
         RadioButton radioTypeNumeric;
         RadioButton radioTypeText;
         EditText editPassword;
         Button btnSave;
+        ImageView imgVisibilityOn;
+        ImageView imgVisibilityOff;
+
     }
 }
