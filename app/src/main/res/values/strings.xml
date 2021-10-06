@@ -17,8 +17,10 @@
     <string name="save">Salvar</string>
     <string name="name_is_mandatory">Campo nome é obrigatorio!</string>
     <string name="password_is_mandatory">Campo \'senha\' é obrigatorio!</string>
-    <string name="succefully_createad">Nova senha cadastrada com sucesso</string>
+    <string name="successfully_created">Nova senha cadastrada com sucesso</string>
+    <string name="successfully_updated">Senha alterada com sucesso</string>
+    <string name="successfully_deleted">Senha removida com sucesso</string>
     <string name="unexpected_error">Ocorreu um erro inesperado</string>
     <string name="password">Senha</string>
-    <string name="reveal_password">Relevar senha</string>
+    <string name="reveal_password">Revelar senha</string>
 </resources>

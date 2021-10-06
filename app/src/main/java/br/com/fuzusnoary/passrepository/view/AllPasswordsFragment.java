@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -79,6 +80,10 @@ public class AllPasswordsFragment extends Fragment {
             public void onChanged(List<PasswordModel> passwordModels) {
                 _adapter.attachList(passwordModels);
             }
+        });
+
+        this._viewModel.feedback.observe(getViewLifecycleOwner(), feedback -> {
+            Toast.makeText(getContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 

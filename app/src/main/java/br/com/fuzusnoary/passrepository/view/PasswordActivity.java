@@ -2,6 +2,7 @@ package br.com.fuzusnoary.passrepository.view;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Objects;
 
 import br.com.fuzusnoary.passrepository.R;
 import br.com.fuzusnoary.passrepository.constants.PasswordConstants;
@@ -42,9 +46,29 @@ public class PasswordActivity extends AppCompatActivity {
         this._viewHolder.imgVisibilityOn = findViewById(R.id.img_visibility_on);
         this._viewHolder.imgVisibilityOff = findViewById(R.id.img_visibility_off);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            this._viewModel.load(bundle.getInt(PasswordConstants.ID));
+            this._passId = bundle.getInt(PasswordConstants.ID);
+        }
+
         this.setListeners();
         this.setObservers();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void setListeners() {
@@ -85,14 +109,23 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     public void setObservers() {
-        this._viewModel.message.observe(this, new Observer<FeedBackModel>() {
-            @Override
-            public void onChanged(FeedBackModel feedback) {
-                if (feedback.isStatus()) {
-                    finish();
-                }
-                Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
+        this._viewModel.message.observe(this, feedback -> {
+            if (feedback.isStatus()) {
+                finish();
             }
+            Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+        this._viewModel.password.observe(this, pass -> {
+            _viewHolder.editNamePassword.setText(pass.getPassName());
+            int type = pass.getPassType();
+            if (type == PasswordConstants.PassType.TEXT) {
+                _viewHolder.radioTypeText.setChecked(true);
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            } else if (type == PasswordConstants.PassType.NUMERIC) {
+                _viewHolder.radioTypeNumeric.setChecked(true);
+                _viewHolder.editPassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+            _viewHolder.editPassword.setText(pass.getPassword());
         });
     }
 

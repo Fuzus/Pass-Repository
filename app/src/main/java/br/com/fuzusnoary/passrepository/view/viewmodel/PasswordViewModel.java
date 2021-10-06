@@ -15,6 +15,10 @@ import br.com.fuzusnoary.passrepository.repository.PasswordRepository;
 public class PasswordViewModel extends AndroidViewModel {
 
     private PasswordRepository _passwordRepository;
+
+    private MutableLiveData<PasswordModel> _password = new MutableLiveData<>();
+    public final LiveData<PasswordModel> password = this._password;
+
     private MutableLiveData<FeedBackModel> _message = new MutableLiveData<>();
     public final LiveData<FeedBackModel> message = this._message;
 
@@ -37,12 +41,26 @@ public class PasswordViewModel extends AndroidViewModel {
             return;
         }
 
-        if (this._passwordRepository.insert(pass)) {
-            this._message.setValue(new FeedBackModel(true,
-                    getApplication().getString(R.string.succefully_createad)));
+        if(pass.getId() == 0) {
+            if (this._passwordRepository.insert(pass)) {
+                this._message.setValue(new FeedBackModel(true,
+                        getApplication().getString(R.string.successfully_created)));
+            } else {
+                this._message.setValue(new FeedBackModel(false,
+                        getApplication().getString(R.string.unexpected_error)));
+            }
         } else {
-            this._message.setValue(new FeedBackModel(false,
-                    getApplication().getString(R.string.unexpected_error)));
+            if (this._passwordRepository.update(pass)) {
+                this._message.setValue(new FeedBackModel(true,
+                        getApplication().getString(R.string.successfully_updated)));
+            } else {
+                this._message.setValue(new FeedBackModel(false,
+                        getApplication().getString(R.string.unexpected_error)));
+            }
         }
+    }
+
+    public void load(int id){
+        this._password.setValue(this._passwordRepository.load(id));
     }
 }
