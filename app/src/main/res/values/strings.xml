@@ -10,13 +10,15 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="pass_name">Nome da senha</string>
-    <string name="pass_type">Tipo da senha</string>
+    <string name="pass_type">Tipo da senha:</string>
     <string name="type_numeric">Númerico</string>
     <string name="type_text">Texto</string>
-    <string name="password">Digite sua Senha</string>
+    <string name="type_your_password">Digite sua Senha</string>
     <string name="save">Salvar</string>
     <string name="name_is_mandatory">Campo nome é obrigatorio!</string>
     <string name="password_is_mandatory">Campo \'senha\' é obrigatorio!</string>
     <string name="succefully_createad">Nova senha cadastrada com sucesso</string>
     <string name="unexpected_error">Ocorreu um erro inesperado</string>
+    <string name="password">Senha</string>
+    <string name="reveal_password">Relevar senha</string>
 </resources>

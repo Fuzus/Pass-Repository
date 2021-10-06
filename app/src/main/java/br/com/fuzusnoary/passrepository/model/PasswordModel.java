@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import br.com.fuzusnoary.passrepository.constants.enums.TypePassword;
+import br.com.fuzusnoary.passrepository.constants.PasswordConstants;
 
 @Entity(tableName = "tb_password")
 public class PasswordModel {
@@ -13,17 +13,14 @@ public class PasswordModel {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "password name")
+    @ColumnInfo(name = "password_name")
     private String passName;
 
-    @ColumnInfo(name = "password type")
-    private TypePassword passType;
+    @ColumnInfo(name = "password_type")
+    private int passType;
 
     @ColumnInfo(name = "password")
     private String password;
-
-    public PasswordModel() {
-    }
 
     public PasswordModel(int id, String passName, int passType, String password) {
         this.id = id;
@@ -48,16 +45,18 @@ public class PasswordModel {
         this.passName = passName;
     }
 
-    public TypePassword getPassType() {
-        return passType;
+    public int getPassType() {
+        return this.passType;
     }
 
     public void setPassType(int passType) {
-        TypePassword.getType(passType);
-    }
-
-    public void setPassType(TypePassword passType) {
-        this.passType = passType;
+        if (passType == PasswordConstants.PassType.TEXT) {
+            this.passType = passType;
+        } else if (passType == PasswordConstants.PassType.NUMERIC) {
+            this.passType = passType;
+        } else {
+            throw new IllegalArgumentException("tipo de senha inexistente: " + passType);
+        }
     }
 
     public String getPassword() {

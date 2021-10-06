@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import br.com.fuzusnoary.passrepository.R;
-import br.com.fuzusnoary.passrepository.constants.enums.TypePassword;
+import br.com.fuzusnoary.passrepository.constants.PasswordConstants;
 import br.com.fuzusnoary.passrepository.model.FeedBackModel;
 import br.com.fuzusnoary.passrepository.model.PasswordModel;
 import br.com.fuzusnoary.passrepository.view.viewmodel.PasswordViewModel;
@@ -84,11 +84,11 @@ public class PasswordActivity extends AppCompatActivity {
 
     }
 
-    public void setObservers(){
+    public void setObservers() {
         this._viewModel.message.observe(this, new Observer<FeedBackModel>() {
             @Override
             public void onChanged(FeedBackModel feedback) {
-                if(feedback.isStatus()){
+                if (feedback.isStatus()) {
                     finish();
                 }
                 Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
@@ -98,11 +98,11 @@ public class PasswordActivity extends AppCompatActivity {
 
     public void handlerSave() {
         String passName = this._viewHolder.editNamePassword.getText().toString();
-        TypePassword type = this._viewHolder.radioTypeNumeric.isChecked() ?
-                TypePassword.NUMERIC : TypePassword.TEXT;
+        int type = this._viewHolder.radioTypeNumeric.isChecked() ?
+                PasswordConstants.PassType.NUMERIC : PasswordConstants.PassType.TEXT;
         String password = this._viewHolder.editPassword.getText().toString();
 
-        PasswordModel pass = new PasswordModel(this._passId, passName, type.getValue(), password);
+        PasswordModel pass = new PasswordModel(this._passId, passName, type, password);
         this._viewModel.save(pass);
 
     }
