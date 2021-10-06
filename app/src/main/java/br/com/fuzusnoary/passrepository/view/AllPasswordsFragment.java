@@ -32,9 +32,9 @@ public class AllPasswordsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_all_passwords, container, false);
 
         this._viewModel = new ViewModelProvider(this).get(AllPasswordsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_all_passwords, container, false);
 
         this._viewHolder.recyclerView = root.findViewById(R.id.recycler_list);
         this._viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -56,6 +56,7 @@ public class AllPasswordsFragment extends Fragment {
             @Override
             public void onDelete(int id) {
                 _viewModel.delete(id);
+                _viewModel.getList();
             }
         };
 

@@ -42,6 +42,7 @@ public class PassAdapter extends RecyclerView.Adapter<PassViewHolder> {
 
     public void attachList(List<PasswordModel> list){
         this._list = list;
+        notifyDataSetChanged();
     }
 
     public void setListeners(ClickList listener){

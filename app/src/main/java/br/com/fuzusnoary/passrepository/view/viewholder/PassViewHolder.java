@@ -37,7 +37,6 @@ public class PassViewHolder extends RecyclerView.ViewHolder {
 
     public void setListeners(PasswordModel pass, ClickList listener) {
         this._imgDelete.setOnClickListener((view) -> {
-
             new AlertDialog.Builder(_context)
                     .setTitle("Remoção de senha")
                     .setMessage("Deseja realmente remover esta senha?")
