@@ -63,7 +63,7 @@ public class PasswordReadActivity extends AppCompatActivity {
         super.onResume();
         _bundle = getIntent().getExtras();
         if (_bundle != null) {
-            this._viewModel.load(_bundle.getInt(PasswordConstants.ID));
+            this._viewModel.load(_bundle.getLong(PasswordConstants.ID));
         }
     }
 
@@ -91,7 +91,7 @@ public class PasswordReadActivity extends AppCompatActivity {
     public void setObservers() {
         this._viewModel.password.observe(this, (pass) -> {
 
-            _viewHolder.textPassName.setText(pass.getPassName());
+            _viewHolder.textPassName.setText(pass.getName());
             int type = pass.getPassType();
             if (type == PasswordConstants.PassType.TEXT) {
                 _viewHolder.radioTypeText.setChecked(true);

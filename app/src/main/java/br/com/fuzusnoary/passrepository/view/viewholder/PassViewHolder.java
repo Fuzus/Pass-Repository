@@ -31,7 +31,7 @@ public class PassViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(PasswordModel pass, ClickList listener) {
-        this._textPassName.setText(pass.getPassName());
+        this._textPassName.setText(pass.getName());
         this.setListeners(pass, listener);
     }
 

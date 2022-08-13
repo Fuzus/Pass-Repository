@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import br.com.fuzusnoary.passrepository.listeners.APIListener;
 import br.com.fuzusnoary.passrepository.model.PasswordModel;
 import br.com.fuzusnoary.passrepository.repository.PasswordRepository;
 
@@ -21,8 +22,18 @@ public class PasswordReadViewModel extends AndroidViewModel {
         _repository = new PasswordRepository(application.getApplicationContext());
     }
 
-    public void load(int id){
-        this._password.setValue(this._repository.load(id));
+    public void load(Long id){
+        _repository.load(id, new APIListener<PasswordModel>() {
+            @Override
+            public void onSuccess(PasswordModel result) {
+                _password.setValue(result);
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+        });
     }
 
 

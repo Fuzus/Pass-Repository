@@ -43,9 +43,9 @@ public class AllPasswordsFragment extends Fragment {
 
         this._listener = new ClickList() {
             @Override
-            public void onClick(int id) {
+            public void onClick(long id) {
                 Bundle bundle = new Bundle();
-                bundle.putInt(PasswordConstants.ID, id);
+                bundle.putLong(PasswordConstants.ID, id);
 
                 Intent intent = new Intent(getContext(), PasswordReadActivity.class);
                 intent.putExtras(bundle);
@@ -55,7 +55,7 @@ public class AllPasswordsFragment extends Fragment {
             }
 
             @Override
-            public void onDelete(int id) {
+            public void onDelete(long id) {
                 _viewModel.delete(id);
                 _viewModel.getList();
             }

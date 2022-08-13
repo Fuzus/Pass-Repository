@@ -1,62 +1,47 @@
 package br.com.fuzusnoary.passrepository.model;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import br.com.fuzusnoary.passrepository.constants.PasswordConstants;
+import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "tb_password")
 public class PasswordModel {
 
-    @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-
-    @ColumnInfo(name = "password_name")
-    private String passName;
-
-    @ColumnInfo(name = "password_type")
+    private Long id;
+    private String name;
     private int passType;
-
-    @ColumnInfo(name = "password")
     private String password;
+    private String userToken;
 
-    public PasswordModel(int id, String passName, int passType, String password) {
+    public PasswordModel(){}
+
+    public PasswordModel(Long id, String name, int passType, String password) {
         this.id = id;
-        this.passName = passName;
-        setPassType(passType);
+        this.name = name;
+        this.passType = passType;
         this.password = password;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPassName() {
-        return passName;
+    public String getName() {
+        return name;
     }
 
-    public void setPassName(String passName) {
-        this.passName = passName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getPassType() {
-        return this.passType;
+        return passType;
     }
 
     public void setPassType(int passType) {
-        if (passType == PasswordConstants.PassType.TEXT) {
-            this.passType = passType;
-        } else if (passType == PasswordConstants.PassType.NUMERIC) {
-            this.passType = passType;
-        } else {
-            throw new IllegalArgumentException("tipo de senha inexistente: " + passType);
-        }
+        this.passType = passType;
     }
 
     public String getPassword() {
@@ -65,5 +50,13 @@ public class PasswordModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 }

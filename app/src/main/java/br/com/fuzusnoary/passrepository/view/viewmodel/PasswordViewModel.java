@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import br.com.fuzusnoary.passrepository.R;
+import br.com.fuzusnoary.passrepository.listeners.APIListener;
 import br.com.fuzusnoary.passrepository.model.FeedBackModel;
 import br.com.fuzusnoary.passrepository.model.PasswordModel;
 import br.com.fuzusnoary.passrepository.repository.PasswordRepository;
@@ -29,7 +30,7 @@ public class PasswordViewModel extends AndroidViewModel {
 
     public void save(PasswordModel pass) {
 
-        if ("".equals(pass.getPassName())){
+        if ("".equals(pass.getName())){
             this._message.setValue(new FeedBackModel(false,
                     getApplication().getString(R.string.name_is_mandatory)));
             return;
@@ -42,25 +43,49 @@ public class PasswordViewModel extends AndroidViewModel {
         }
 
         if(pass.getId() == 0) {
-            if (this._passwordRepository.insert(pass)) {
-                this._message.setValue(new FeedBackModel(true,
-                        getApplication().getString(R.string.successfully_created)));
-            } else {
-                this._message.setValue(new FeedBackModel(false,
-                        getApplication().getString(R.string.unexpected_error)));
-            }
+            this._passwordRepository.insert(pass, new APIListener<PasswordModel>() {
+                @Override
+                public void onSuccess(PasswordModel result) {
+                    _password.setValue(result);
+                    _message.setValue(new FeedBackModel(true,
+                            getApplication().getString(R.string.successfully_created)));
+                }
+
+                @Override
+                public void onFailure(String message) {
+                   _message.setValue(new FeedBackModel(false,
+                            getApplication().getString(R.string.unexpected_error)));
+                }
+            });
         } else {
-            if (this._passwordRepository.update(pass)) {
-                this._message.setValue(new FeedBackModel(true,
-                        getApplication().getString(R.string.successfully_updated)));
-            } else {
-                this._message.setValue(new FeedBackModel(false,
-                        getApplication().getString(R.string.unexpected_error)));
-            }
+            this._passwordRepository.update(pass, new APIListener<PasswordModel>() {
+                @Override
+                public void onSuccess(PasswordModel result) {
+                    _password.setValue(result);
+                    _message.setValue(new FeedBackModel(true,
+                            getApplication().getString(R.string.successfully_updated)));
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    _message.setValue(new FeedBackModel(false,
+                            getApplication().getString(R.string.unexpected_error)));
+                }
+            });
         }
     }
 
-    public void load(int id){
-        this._password.setValue(this._passwordRepository.load(id));
+    public void load(Long id){
+        this._passwordRepository.load(id, new APIListener<PasswordModel>() {
+            @Override
+            public void onSuccess(PasswordModel result) {
+                _password.setValue(result);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                _message.setValue(new FeedBackModel(false, message));
+            }
+        });
     }
 }

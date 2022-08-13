@@ -27,14 +27,14 @@ public class PasswordActivity extends AppCompatActivity {
 
     private final ViewHolder _viewHolder = new ViewHolder();
     private PasswordViewModel _viewModel;
-    private int _passId;
+    private Long _passId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
 
-        _passId = 0;
+        _passId = 0L;
 
         this._viewModel = new ViewModelProvider(this).get(PasswordViewModel.class);
 
@@ -53,8 +53,8 @@ public class PasswordActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            this._viewModel.load(bundle.getInt(PasswordConstants.ID));
-            this._passId = bundle.getInt(PasswordConstants.ID);
+            this._viewModel.load(bundle.getLong(PasswordConstants.ID));
+            this._passId = bundle.getLong(PasswordConstants.ID);
         }
 
         this.setListeners();
@@ -116,7 +116,7 @@ public class PasswordActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
         });
         this._viewModel.password.observe(this, pass -> {
-            _viewHolder.editNamePassword.setText(pass.getPassName());
+            _viewHolder.editNamePassword.setText(pass.getName());
             int type = pass.getPassType();
             if (type == PasswordConstants.PassType.TEXT) {
                 _viewHolder.radioTypeText.setChecked(true);
