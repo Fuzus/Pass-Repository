@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 public interface UserService {
 
     @FormUrlEncoded
-    @POST("users")
+    @POST("Authentication/create")
     Call<UserModel> createUser(
             @Field("name") String name,
             @Field("email") String email,
@@ -18,7 +18,7 @@ public interface UserService {
     );
 
     @FormUrlEncoded
-    @GET("users")
+    @POST("Authentication/login")
     Call<UserModel> login(
             @Field("email") String email,
             @Field("password") String password

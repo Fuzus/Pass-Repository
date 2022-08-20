@@ -2,22 +2,22 @@ package br.com.fuzusnoary.passrepository.model;
 
 public class FeedBackModel {
 
-    private boolean status;
+    private boolean success;
     private String message;
 
     public FeedBackModel(){}
 
-    public FeedBackModel(boolean status, String message){
-        this.status = status;
+    public FeedBackModel(boolean success, String message){
+        this.success = success;
         this.message = message;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public String getMessage() {

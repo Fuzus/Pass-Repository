@@ -12,7 +12,9 @@ public class PasswordConstants {
     }
 
     public static class SHARED {
+        public static final String USER_NAME = "user_name";
         public static final String USER_TOKEN = "user_token";
+        public static final String USER_EMAIL = "user_email";
     }
 
     public static class HTTP {

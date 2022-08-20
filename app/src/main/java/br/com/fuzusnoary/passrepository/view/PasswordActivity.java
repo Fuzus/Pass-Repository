@@ -12,14 +12,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import java.util.Objects;
 
 import br.com.fuzusnoary.passrepository.R;
 import br.com.fuzusnoary.passrepository.constants.PasswordConstants;
-import br.com.fuzusnoary.passrepository.model.FeedBackModel;
 import br.com.fuzusnoary.passrepository.model.PasswordModel;
 import br.com.fuzusnoary.passrepository.view.viewmodel.PasswordViewModel;
 
@@ -110,7 +106,7 @@ public class PasswordActivity extends AppCompatActivity {
 
     public void setObservers() {
         this._viewModel.message.observe(this, feedback -> {
-            if (feedback.isStatus()) {
+            if (feedback.isSuccess()) {
                 finish();
             }
             Toast.makeText(getApplicationContext(), feedback.getMessage(), Toast.LENGTH_SHORT).show();
