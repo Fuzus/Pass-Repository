@@ -13,12 +13,16 @@ import br.com.fuzusnoary.passrepository.model.FeedBackModel;
 import br.com.fuzusnoary.passrepository.model.UserModel;
 import br.com.fuzusnoary.passrepository.repository.UserRepository;
 import br.com.fuzusnoary.passrepository.repository.remote.RetrofitClient;
+import br.com.fuzusnoary.passrepository.util.FingerPrintUtils;
 
 public class UserViewModel extends AndroidViewModel {
 
     private final UserRepository _repository;
     private final MutableLiveData<FeedBackModel> _login = new MutableLiveData<>();
     public LiveData<FeedBackModel> login = _login;
+
+    private final MutableLiveData<Boolean> _isFingerPrintAvailable = new MutableLiveData<>();
+    public LiveData<Boolean> isFingerPrintAvailable = _isFingerPrintAvailable;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -54,5 +58,19 @@ public class UserViewModel extends AndroidViewModel {
                 _login.setValue(new FeedBackModel(false, message));
             }
         });
+    }
+
+    private boolean isUserLoggedIn() {
+        boolean isLogged = !_repository.getLocalData().getEmail().equals("");
+        if (isLogged)
+            RetrofitClient.saveHeaders(_repository.getLocalData().getToken());
+
+        return isLogged;
+    }
+
+    public void checkFingerPrintRequirement() {
+        if (this.isUserLoggedIn()) {
+           _isFingerPrintAvailable.setValue(FingerPrintUtils.isAvailable(this.getApplication()));
+        }
     }
 }

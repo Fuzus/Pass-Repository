@@ -1,9 +1,5 @@
 package br.com.fuzusnoary.passrepository.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.concurrent.Executor;
 
 import br.com.fuzusnoary.passrepository.R;
 import br.com.fuzusnoary.passrepository.model.FeedBackModel;
@@ -36,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.setListeners();
         this.setObservers();
 
+        _userViewModel.checkFingerPrintRequirement();
     }
 
     @Override
@@ -46,7 +52,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String password = _viewHolder.editPassword.getText().toString();
 
             _userViewModel.login(email, password);
-        } if (id == R.id.text_register) {
+        }
+        if (id == R.id.text_register) {
             startActivity(new Intent(getApplication(), RegisterActivity.class));
         }
     }
@@ -68,6 +75,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+
+        _userViewModel.isFingerPrintAvailable.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isAvailable) {
+                if (isAvailable) {
+                    openBiometricAuthentication();
+                }
+            }
+        });
+    }
+
+    private void openBiometricAuthentication() {
+        Executor executor = ContextCompat.getMainExecutor(this);
+
+        BiometricPrompt biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                startActivity(new Intent(getApplication(), MainActivity.class));
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        BiometricPrompt.PromptInfo info = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Password Repository")
+                .setNegativeButtonText("cancel")
+                .build();
+        
+        biometricPrompt.authenticate(info);
     }
 
     public static class ViewHolder {
